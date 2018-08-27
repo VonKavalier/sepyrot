@@ -39,7 +39,7 @@ def main(text):
     elif choice == "decode":
         decode(text)
     else:
-        print("Please use 'decode' or 'encode' option : setpy <decode/encode> <message>")
+        print("Please use 'decode' or 'encode' option : setpy <decode/encode> \"<message>\"")
 
 text = str(sys.argv[2])
 
