@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 
 from random import randint
 import codecs
@@ -21,13 +21,31 @@ def rot13(text):
     text = codecs.encode(text, 'rot_13')
     return text
 
+def prevent_doubled_chars(text):
+    text_as_list = list(text)
+    for index in range(len(text_as_list)-1):
+        if text_as_list[index] == text_as_list[index+1]:
+            text_as_list[index+1] = "."
+    text = ''.join(text_as_list)
+    return text
+
+def recreate_doubled_chars(text):
+    text_as_list = list(text)
+    for index in range(len(text_as_list)-1):
+        if text_as_list[index+1] == '.':
+            text_as_list[index+1] = text_as_list[index]
+    text = ''.join(text_as_list)
+    return text
+
 def encode(text):
     text = rot13(text)
+    text = prevent_doubled_chars(text)
     text = replace_spaces(text)
     print(text)
 
 def decode(text):
     text = rot13(text)
+    text = recreate_doubled_chars(text)
     text = replace_numbers(text, string.punctuation+string.digits)
     print(text)
 
