@@ -15,7 +15,7 @@ def replace_spaces(text):
     return text
 
 def replace_numbers(s, chars):
-    return re.sub('[%s]' % chars, ' ', s).lower()
+    return re.sub('[%s]' % chars, ' ', s)
 
 def rot13(text):
     text = codecs.encode(text, "rot_13")
