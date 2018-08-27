@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__version__ = "1.0"
+__version__ = "1.0.1"
 
 from random import randint
 import codecs
@@ -18,7 +18,7 @@ def replace_numbers(s, chars):
     return re.sub('[%s]' % chars, ' ', s)
 
 def rot13(text):
-    text = codecs.encode(text, "rot_13")
+    text = codecs.encode(text, 'rot_13')
     return text
 
 def encode(text):
@@ -36,7 +36,7 @@ def main(text):
 
     if choice == 'encode':
         encode(text)
-    elif choice == "decode":
+    elif choice == 'decode':
         decode(text)
     else:
         print("Please use 'decode' or 'encode' option : setpy <decode/encode> \"<message>\"")
