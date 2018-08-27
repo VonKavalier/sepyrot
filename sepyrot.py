@@ -49,16 +49,17 @@ def decode(text):
     text = replace_numbers(text, string.punctuation+string.digits)
     print(text)
 
-def main(text):
-    choice = str(sys.argv[1])
-
-    if choice == 'encode':
-        encode(text)
-    elif choice == 'decode':
-        decode(text)
+def main():
+    if len(sys.argv)>2:
+        choice = str(sys.argv[1])
+        text = str(sys.argv[2])
+        
+        if (choice == 'encode') and (len(sys.argv)>2):
+            encode(text)
+        elif (choice == 'decode') and (len(sys.argv)>2):
+            decode(text)
     else:
-        print("Please use 'decode' or 'encode' option : setpy <decode/encode> \"<message>\"")
+        print("Please use 'decode' or 'encode' option :\n\n./sepyrot.py <decode/encode> \"<message>\"")
 
-text = str(sys.argv[2])
 
-main(text)
+main()
