@@ -13,6 +13,6 @@ $ ./sepyrot decode "Uryyb2V5nz6n6grkg"
 Hello I am a text
 ```
 
-Issues :
+## Issues :
 - Doesn't work with special characters, including accentuated letters
 - Cannot encode/decode messages that include numbers, it'll replace them with spaces in decoded message
