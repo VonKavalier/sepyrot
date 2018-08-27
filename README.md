@@ -5,14 +5,14 @@ A little python script that encodes and decodes a text by replacing spaces with 
 
 ```
 # Encode
-$ ./sepyrot encode "Hello I am a text"
+$ ./sepyrot.py encode "Hello I am a text"
 Uryyb2V5nz6n6grkg
 
 # Decode
-$ ./sepyrot decode "Uryyb2V5nz6n6grkg"
+$ ./sepyrot.py decode "Uryyb2V5nz6n6grkg"
 Hello I am a text
 ```
 
 ## Issues :
-- Doesn't work with special characters, including accentuated letters
+- Doesn't work with special characters. Doesn't crash when using Python3 but those letters stay in clear text and special characters become spaces when decoded
 - Cannot encode/decode messages that include numbers, it'll replace them with spaces in decoded message
