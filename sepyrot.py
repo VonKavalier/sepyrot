@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__version__ = "1.1.0"
+__version__ = "1.1.2"
 
 from random import randint
 import codecs
@@ -25,14 +25,14 @@ def prevent_doubled_chars(text):
     text_as_list = list(text)
     for index in range(len(text_as_list)-1):
         if text_as_list[index] == text_as_list[index+1]:
-            text_as_list[index+1] = "."
+            text_as_list[index+1] = "+"
     text = ''.join(text_as_list)
     return text
 
 def recreate_doubled_chars(text):
     text_as_list = list(text)
     for index in range(len(text_as_list)-1):
-        if text_as_list[index+1] == '.':
+        if text_as_list[index+1] == '+':
             text_as_list[index+1] = text_as_list[index]
     text = ''.join(text_as_list)
     return text

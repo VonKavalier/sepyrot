@@ -1,16 +1,16 @@
 # sepyrot
-A little python script that encodes and decodes a text by replacing spaces with random numbers, applies rot13 to the letters and replace the second of doubled letters with a dot.
+A little python script that encodes and decodes a text by replacing spaces with random numbers, applies rot13 to the letters and replace the second of doubled letters with a "+".
 
 ## Usages :
 
 ```
 # Encode
-$ ./sepyrot.py encode "Hello I am a text"
-Ury.b3V8nz0n5grkg
+$ ./sepyrot.py encode "Hello I am a message"
+Ury+b2V4nz8n9zrf+ntr
 
 # Decode
-$ ./sepyrot.py decode "Ury.b3V8nz0n5grkg"
-Hello I am a text
+$ ./sepyrot.py decode "Ury+b2V4nz8n9zrf+ntr"
+Hello I am a message
 ```
 
 ## Issues :
