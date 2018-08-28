@@ -14,5 +14,5 @@ Hello I am a text
 ```
 
 ## Issues :
-- Doesn't work with special characters. Doesn't crash when using Python3 but those letters stay in clear text and special characters become spaces when decoded
+- Special characters make the script crash with Python < 3. With Python 3 they are just not rot13 encoded and stay clear in the encoded message
 - Cannot encode/decode messages that include numbers, it'll replace them with spaces in decoded message

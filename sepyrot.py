@@ -46,7 +46,7 @@ def encode(text):
 def decode(text):
     text = rot13(text)
     text = recreate_doubled_chars(text)
-    text = replace_numbers(text, string.punctuation+string.digits)
+    text = replace_numbers(text, string.digits)
     print(text)
 
 def main():
