@@ -1,65 +1,103 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import codecs
+import re
+import string
+import sys
+from random import randint
+
+import wx
+
 __version__ = "1.1.2"
 
-from random import randint
-import codecs
-import sys
-import re, string
 
-def replace_spaces(text):
-    nb_spaces = text.count(' ')
-    for i in range(nb_spaces):
-        text = text.replace(' ', str(randint(0, 9)), 1)
-    return text
+class MainFrame(wx.Frame):
 
-def replace_numbers(s, chars):
-    return re.sub('[%s]' % chars, ' ', s)
+    def __init__(self, *args, **kw):
+        # ensure the parent's __init__ is called
+        super(MainFrame, self).__init__(*args, **kw)
 
-def rot13(text):
-    text = codecs.encode(text, 'rot_13')
-    return text
+        # create a panel in the frame
+        pnl = wx.Panel(self)
 
-def prevent_doubled_chars(text):
-    text_as_list = list(text)
-    for index in range(len(text_as_list)-1):
-        if text_as_list[index] == text_as_list[index+1]:
-            text_as_list[index+1] = "+"
-    text = ''.join(text_as_list)
-    return text
+        # and put some text with a larger bold font on it
+        text = 'Oui bonjour toi'
+        text_encoded = self.encode(text)
+        self.encode_form = wx.TextCtrl(pnl, pos=(25, 25), size=(250, 25), name="decoded_form")
 
-def recreate_doubled_chars(text):
-    text_as_list = list(text)
-    for index in range(len(text_as_list)-1):
-        if text_as_list[index+1] == '+':
-            text_as_list[index+1] = text_as_list[index]
-    text = ''.join(text_as_list)
-    return text
+        self.button = wx.Button(pnl, label="Encode", pos=(25, 60))
 
-def encode(text):
-    text = rot13(text)
-    text = prevent_doubled_chars(text)
-    text = replace_spaces(text)
-    print(text)
+        self.decode_form = wx.TextCtrl(pnl, name="decode_form", pos=(25, 85), size=(250, 25))
 
-def decode(text):
-    text = rot13(text)
-    text = recreate_doubled_chars(text)
-    text = replace_numbers(text, string.digits)
-    print(text)
+        # and a status bar
+        self.CreateStatusBar()
 
-def main():
-    if len(sys.argv)>2:
-        choice = str(sys.argv[1])
-        text = str(sys.argv[2])
-        
-        if (choice == 'encode') and (len(sys.argv)>2):
-            encode(text)
-        elif (choice == 'decode') and (len(sys.argv)>2):
-            decode(text)
-    else:
-        print("Please use 'decode' or 'encode' option :\n\n./sepyrot.py <decode/encode> \"<message>\"")
+    def on_exit(self, event):
+        """Close the frame, terminating the application."""
+        self.Close(True)
 
+    def on_hello(self, event):
+        """Say hello to the user."""
+        wx.MessageBox("Hello again from wxPython")
 
-main()
+    def replace_spaces(self, text):
+        nb_spaces = text.count(' ')
+        for i in range(nb_spaces):
+            text = text.replace(' ', str(randint(0, 9)), 1)
+        return text
+
+    def replace_numbers(self, chars):
+        return re.sub('[%s]' % chars, ' ', self)
+
+    def rot13(self, text):
+        text = codecs.encode(text, 'rot_13')
+        return text
+
+    def prevent_doubled_chars(self, text):
+        text_as_list = list(text)
+        for index in range(len(text_as_list) - 1):
+            if text_as_list[index] == text_as_list[index + 1]:
+                text_as_list[index + 1] = "+"
+        text = ''.join(text_as_list)
+        return text
+
+    def recreate_doubled_chars(self):
+        text_as_list = list(self)
+        for index in range(len(text_as_list) - 1):
+            if text_as_list[index + 1] == '+':
+                text_as_list[index + 1] = text_as_list[index]
+        self = ''.join(text_as_list)
+        return self
+
+    def encode(self, text):
+        text = self.rot13(text)
+        text = self.prevent_doubled_chars(text)
+        text = self.replace_spaces(text)
+        return text
+
+    def decode(self):
+        self = wx.rot13(self)
+        self = wx.recreate_doubled_chars(self)
+        self = wx.replace_numbers(self, string.digits)
+        print(self)
+
+    def main():
+        if len(sys.argv) > 2:
+            choice = str(sys.argv[1])
+            text = str(sys.argv[2])
+
+            if (choice == 'encode') and (len(sys.argv) > 2):
+                wx.encode(text)
+            elif (choice == 'decode') and (len(sys.argv) > 2):
+                wx.decode(text)
+        else:
+            print("Please use 'decode' or 'encode' option :\n\n./sepyrot.py <decode/encode> \"<message>\"")
+
+if __name__ == '__main__':
+    # When this module is run (not imported) then create the app, the
+    # frame, show it, and start the event loop.
+    app = wx.App()
+    frm = MainFrame(None, title='sepyrot GUI')
+    frm.Show()
+    app.MainLoop()
