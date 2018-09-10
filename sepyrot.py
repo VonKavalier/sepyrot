@@ -26,12 +26,14 @@ class MainFrame(wx.Frame):
         text_encoded = self.encode(text)
         self.encode_form = wx.TextCtrl(pnl, pos=(25, 25), size=(250, 25), name="decoded_form")
 
-        self.button = wx.Button(pnl, label="Encode", pos=(25, 60))
+        self.encode_button = wx.Button(pnl, label="Encode", pos=(25, 60))
 
-        self.decode_form = wx.TextCtrl(pnl, name="decode_form", pos=(25, 85), size=(250, 25))
+        self.decode_form = wx.TextCtrl(pnl, name="encoded_form", pos=(25, 85), size=(250, 25))
 
         # and a status bar
         self.CreateStatusBar()
+
+        self.Bind(wx.EVT_MENU, self.on_encode, self.encode_button)
 
     def on_exit(self, event):
         """Close the frame, terminating the application."""
@@ -40,6 +42,10 @@ class MainFrame(wx.Frame):
     def on_hello(self, event):
         """Say hello to the user."""
         wx.MessageBox("Hello again from wxPython")
+
+    def on_encode(self, event):
+        wx.decode_form.SetValue(wx.encode(wx.encode_form.GetValue()))
+        self.decode_form = wx.TextCtrl(pnl, name="encoded_form", pos=(25, 85), size=(250, 25), value=wx.encode('test'))
 
     def replace_spaces(self, text):
         nb_spaces = text.count(' ')
