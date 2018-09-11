@@ -5,11 +5,16 @@
 import string
 import re
 from random import randint
+from flask import Flask
+from flask import render_template
+from flask import request
+from flask import flash
 import codecs
 import sys
 
 
 __version__ = "1.1.3"
+app = Flask(__name__)
 
 
 def replace_spaces(text):
@@ -56,7 +61,7 @@ def encode(text):
     text = rot13(text)
     text = prevent_doubled_chars(text)
     text = replace_spaces(text)
-    print(text)
+    return text
 
 
 def decode(text):
@@ -64,7 +69,7 @@ def decode(text):
     text = rot13(text)
     text = recreate_doubled_chars(text)
     text = replace_numbers(text)
-    print(text)
+    return text
 
 
 def main():
@@ -81,6 +86,37 @@ def main():
         message = "Please use 'decode' or 'encode' option :"
         message += "\n\n./sepyrot.py <decode/encode> \"<message>\""
         print(message)
+
+
+@app.route("/encode", methods=('GET', 'POST'))
+def encode_view():
+    if request.method == 'POST':
+        title = request.form['encode_form']
+        error = None
+
+        if not title:
+            error = 'Text is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            return encode(title)
+
+    return render_template('encode/index.html')
+
+
+@app.route("/decode")
+def decode_view():
+    return "decode"
+
+
+def create_the_page():
+    return render_template('index.html')
+
+
+@app.route("/")
+def hello():
+    return create_the_page()
 
 
 if __name__ == '__main__':

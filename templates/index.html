@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% block header %}
+        <h1>Welcome to the sepyrot interface !</h1>
+    {% endblock %}
+
+    <a class="action" href="{{ url_for('encode_view') }}">Encode a text</a>
+
+    {% block content %}
+        <form method="post">
+            <label for="encode_form">Clear text here</label><br>
+            <input type="text" id="encode_form" name="encode_form" value="{{ request.form['encode_form'] }}"><br>
+            <button id="encode">Encode</button>
+        </form>
+        <br>
+        <form method="post" action="decode">
+            <label for="decode_form">Encoded text here</label><br>
+            <input type="text" id="decode_form" name="decode_form" value="{{ request.form['decode_form'] }}"><br>
+            <button id="decode">Decode</button><br>
+        </form>
+    {% endblock %}
+</body>
+</html>
