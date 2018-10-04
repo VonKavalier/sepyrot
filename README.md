@@ -3,14 +3,26 @@ A little python script that encodes and decodes a text by replacing spaces with 
 
 ## Usages :
 
+### Works with simple text...
+
 ```
-# Encode
+# Encode a short message
 $ ./sepyrot.py encode "Hello I am a message"
 Ury+b2V4nz8n9zrf+ntr
 
-# Decode
+# Decode a short message
 $ ./sepyrot.py decode "Ury+b2V4nz8n9zrf+ntr"
 Hello I am a message
+```
+
+### ...And with files as well
+
+```
+# Encode a text file (which works with multiple lines indeed)
+$ ./sepyrot.py encode "$(cat textfile.txt)" > encoded_textfile.txt
+
+# Decode an encoded text file
+$ ./sepyrot.py decode "$(cat encoded_textfile.txt)" > decoded_textfile.txt
 ```
 
 ## Issues :
