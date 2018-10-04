@@ -7,7 +7,7 @@ import re
 from random import randint
 import codecs
 import sys
-
+import getopt
 
 __version__ = "1.1.3"
 
@@ -67,21 +67,35 @@ def decode(text):
     print(text)
 
 
-def main():
+def main(argv):
     """Entrance of the script."""
-    if len(sys.argv) > 2:
-        choice = str(sys.argv[1])
-        text = str(sys.argv[2])
-
-        if (choice == 'encode') and (len(sys.argv) > 2):
-            encode(text)
-        elif (choice == 'decode') and (len(sys.argv) > 2):
-            decode(text)
-    else:
-        message = "Please use 'decode' or 'encode' option :"
-        message += "\n\n./sepyrot.py <decode/encode> \"<message>\""
-        print(message)
-
+    try:
+        opts, args = getopt.getopt(
+            argv,
+            "he:d:",
+            [
+                "encode=",
+                "decode="
+            ]
+        )
+    except getopt.GetoptError as e:
+        print(str(e))
+        print('usage: sepyrot.py -e \"message to encode\"                  # encode a simple text')
+        print('                  -d \"message to decode\"                  # decode a simple text\n')
+        print('       sepyrot.py -e \"$(cat file.txt)\" > encoded_file.txt # encode a file')
+        print('                  -d \"$(cat encoded_file.txt)\"            # decode a file')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print('usage: sepyrot.py -e \"message to encode\"                  # encode a simple text')
+            print('                  -d \"message to decode\"                  # decode a simple text\n')
+            print('       sepyrot.py -e \"$(cat file.txt)\" > encoded_file.txt # encode a file')
+            print('                  -d \"$(cat encoded_file.txt)\"            # decode a file')
+            sys.exit()
+        elif opt in ("-e", "--encode"):
+            encode(arg)
+        elif opt in ("-d", "--decode"):
+            decode(arg)
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
