@@ -1,6 +1,10 @@
 # sepyrot
 A little python script that encodes and decodes a text by replacing spaces with random numbers, applies rot13 to the letters and replace the second of doubled letters with a "+".
 
+## Requirements 
+
+Python ≥ 3.0
+
 ## Usages :
 
 ### Works with simple text...
