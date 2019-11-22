@@ -9,7 +9,7 @@ import codecs
 import sys
 import getopt
 
-__version__ = "1.1.4"
+__version__ = "1.1.5"
 
 
 def replace_spaces(text):
@@ -57,6 +57,7 @@ def encode(text):
     text = prevent_doubled_chars(text)
     text = replace_spaces(text)
     print(text)
+    sys.exit()
 
 
 def decode(text):
@@ -65,14 +66,21 @@ def decode(text):
     text = recreate_doubled_chars(text)
     text = replace_numbers(text)
     print(text)
+    sys.exit()
 
+def show_help():
+    print('\nusage: -e \"message to encode\"                  # encode a simple text')
+    print('       -d \"message to decode\"                  # decode a simple text\n')
+    print('       -e \"$(cat file.txt)\" > encoded_file.txt # encode a file')
+    print('       -d \"$(cat encoded_file.txt)\"            # decode a file')
+    sys.exit(2)
 
 def main(argv):
     """Entrance of the script."""
     try:
         opts, args = getopt.getopt(
             argv,
-            "he:d:",
+            "e:d:",
             [
                 "encode=",
                 "decode="
@@ -80,22 +88,15 @@ def main(argv):
         )
     except getopt.GetoptError as e:
         print(str(e))
-        print('usage: sepyrot.py -e \"message to encode\"                  # encode a simple text')
-        print('                  -d \"message to decode\"                  # decode a simple text\n')
-        print('       sepyrot.py -e \"$(cat file.txt)\" > encoded_file.txt # encode a file')
-        print('                  -d \"$(cat encoded_file.txt)\"            # decode a file')
-        sys.exit(2)
+        show_help()
     for opt, arg in opts:
-        if opt == '-h':
-            print('usage: sepyrot.py -e \"message to encode\"                  # encode a simple text')
-            print('                  -d \"message to decode\"                  # decode a simple text\n')
-            print('       sepyrot.py -e \"$(cat file.txt)\" > encoded_file.txt # encode a file')
-            print('                  -d \"$(cat encoded_file.txt)\"            # decode a file')
-            sys.exit()
-        elif opt in ("-e", "--encode"):
+        if opt in ("-e", "--encode"):
             encode(arg)
-        elif opt in ("-d", "--decode"):
+
+        if opt in ("-d", "--decode"):
             decode(arg)
+
+    show_help()
 
 if __name__ == '__main__':
     main(sys.argv[1:])
