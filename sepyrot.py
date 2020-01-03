@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Shebang."""
 # -*- coding: utf-8 -*-
 
@@ -30,6 +30,47 @@ def rot13(text):
     text = codecs.encode(text, 'rot_13')
     return text
 
+def mark_numbers(text):
+    text_as_list = list(text)
+    list_result = list()
+    loop_value = range(len(text_as_list))
+
+    for index in loop_value:
+        list_result.append(text_as_list[index])
+
+        if text_as_list[index].isdigit():
+            list_result.append("#")
+
+    text = ''.join(list_result)
+
+    return text
+
+def keep_marked_numbers(text):
+    text_as_list = list(text)
+    list_result = list()
+    loop_value = range(len(text_as_list))
+    number = False;
+    print(loop_value)
+    
+    for index in loop_value:
+
+        if text_as_list[index].isdigit():
+            number = True;
+            continue
+
+        if text_as_list[index] == '#' and number:
+            list_result.append(text_as_list[index - 1])
+            number = False
+            continue
+
+        if number:
+            list_result.append(' ')
+
+        list_result.append(text_as_list[index])
+
+    text = ''.join(list_result)
+
+    return text
 
 def prevent_doubled_chars(text):
     """Change second of doubled letter with a '+'."""
@@ -53,6 +94,7 @@ def recreate_doubled_chars(text):
 
 def encode(text):
     """Call the different encoding steps."""
+    text = mark_numbers(text)
     text = rot13(text)
     text = prevent_doubled_chars(text)
     text = replace_spaces(text)
@@ -63,8 +105,9 @@ def encode(text):
 def decode(text):
     """Call the different decoding steps."""
     text = rot13(text)
+    text = keep_marked_numbers(text)
     text = recreate_doubled_chars(text)
-    text = replace_numbers(text)
+    """text = replace_numbers(text)"""
     print(text)
     sys.exit()
 
